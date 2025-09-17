@@ -1,0 +1,51 @@
+version: '2.4'
+
+services:
+  frontend:
+    image: localhost:5000/ui-client:$build_version
+    ports:
+     - $apache_port:80
+    restart: always
+  backend:
+    image: localhost:5000/backend:$build_version
+    entrypoint: /opt/backend/startup.sh -d
+    expose: 
+     - "8282"
+    ports:
+     - "$backend_port:8282"
+     - "$backend_jmx_port:1898"
+    mem_limit: $mem_limit
+    volumes:
+     - ./volumes/dataimport:/var/dataimport
+     - ./volumes/backenddata:/opt/backenddata
+    environment:
+     - IRPSIM_MYSQL_PATH=/var/lib/import
+     - IRPSIM_MYSQL_JAVAPATH=/var/dataimport
+     - IRPSIM_MYSQL_USER=root 
+     - IRPSIM_MYSQL_PASSWORD=$db_password 
+     - IRPSIM_MYSQL_URL=jdbc:mysql://mariadb:3306/irpsim 
+     - IRPSIM_PERSISTENCEFOLDER=/opt/backenddata
+     - IRPSIM_PARALLEL_JOBS=$parallel_jobs
+     - RAM=$ram
+     - MONITORING=$MONITORING
+     - IRPSIM_DISK=/dev/sdc1
+    restart: always
+    depends_on:
+     - "mariadb"
+  mariadb:
+    image: mariadb:latest
+    expose:
+     - "3306"
+    volumes:
+     - ./mariadb_conf:/etc/mysql/conf.d/
+     - ./volumes/dataimport:/var/lib/import
+     - $backend_data_path:/var/lib/mysql
+    environment:
+     - MYSQL_ROOT_PASSWORD=$db_password
+     - MYSQL_DATABASE=irpsim
+    restart: always
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: $subnet_cidr

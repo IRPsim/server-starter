@@ -1,0 +1,10 @@
+export build_version=model-master
+export apache_port=8080
+export backend_port=8282
+export backend_jmx_port=9000
+export backend_data_path=../../database/
+export db_password=suuupergeheim
+export mem_limit=5G
+export ram=-Xmx3g
+export subnet_cidr=10.6.0.0/24
+export parallel_jobs=1
