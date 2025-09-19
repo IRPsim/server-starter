@@ -7,4 +7,4 @@ echo "Freigabe Backend auf Port $backend_port"
 echo "Freigabe Frontend auf Port $apache_port"
 echo "Freigabe JMX des Backends auf Port $backend_jmx_port"
 
-docker-compose  -p "$build_version" up -d
+docker compose  -p "$build_version" up -d
