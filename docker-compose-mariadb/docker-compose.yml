@@ -23,7 +23,7 @@ services:
      - IRPSIM_MYSQL_JAVAPATH=/var/dataimport
      - IRPSIM_MYSQL_USER=root 
      - IRPSIM_MYSQL_PASSWORD=$db_password 
-     - IRPSIM_MYSQL_URL=jdbc:mysql://mariadb:3306/irpsim?useSSL=false 
+     - IRPSIM_MYSQL_URL=jdbc:mariadb://mariadb:3306/irpsim?useSSL=false 
      - IRPSIM_PERSISTENCEFOLDER=/opt/backenddata
      - IRPSIM_PARALLEL_JOBS=$parallel_jobs
      - RAM=$ram
